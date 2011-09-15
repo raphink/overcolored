@@ -43,7 +43,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{59}
+% \CheckSum{64}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -128,6 +128,12 @@
 %
 % This value can be redefined by setting the |\overcolored@height| macro.
 %
+% \section{Macros}
+%
+% \DescribeMacro{\overuncolored}
+% If you wish to turn off the colored overfull rules in your document,
+% you can use the |\overuncolored| macro.
+%
 %
 % \StopEventually{}
 %
@@ -161,6 +167,14 @@
         \rule{\overcolored@width}{\overcolored@height}}}}%
     \fi%
   }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\overuncolored}
+%    \begin{macrocode}
+\def\overuncolored{%
+  \let\output=\orioutput
 }
 %    \end{macrocode}
 % \end{macro}
