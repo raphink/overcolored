@@ -1,0 +1,190 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2011 by Raphaël Pinson <raphink@gmail.com>
+% ---------------------------------------------------------------------------
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Raphaël Pinson.
+%
+% This work consists of the files overcolored.dtx and overcolored.ins
+% and the derived filebase overcolored.sty.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{overcolored.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<package>\ProvidesPackage{overcolored}
+%<*package>
+    [2011/09/15 0.1 Typeset colored overfull rules]
+%</package>
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{overcolored}[2011/09/15]
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{overcolored.dtx}
+  \PrintChanges
+  \PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{59}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{0.1}{2011/09/15}{Converted to DTX file}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+%
+% \providecommand*{\url}{\texttt}
+% \GetFileInfo{overcolored.dtx}
+% \title{The \textsf{overcolored} package}
+% \author{Raphaël Pinson \\ \url{raphink@gmail.com}}
+% \date{\fileversion~from \filedate}
+%
+% \maketitle
+%
+% \section{Introduction}
+%
+% A question about coloring overfull rules was asked on
+% tex.stackexchange.com\footnote{\url{http://tex.stackexchange.com/questions/28294/can-i-have-the-overfullrule-rule-colored-in-pdflatex}}
+% and one answer given used Paweł Jackowski's solution\footnote{\url{http://www.tug.org/TUGboat/tb29-1/tb91pearls.pdf}}
+% to tune overfull boxes.
+%
+% This package uses this implementation to provide a simple interface
+% to display colored overfull boxes. 
+% 
+%
+% \section{Usage}
+%
+% You can load this package with:
+%
+% \begin{verbatim}
+%   \usepackage[<options>]{overcolored}
+% \end{verbatim}
+%
+%
+% \section{Options}
+%
+% \DescribeMacro{color}
+%
+% Set the color of the overfull rule. Defaults to \texttt{magenta}:
+%
+% \begin{verbatim}
+%   \usepackage[color=blue]{overcolored}
+% \end{verbatim}
+%
+% This value can be redefined by setting the |\overcolored@color| macro.
+% 
+%
+% \DescribeMacro{width}
+%
+% Set the width of the overfull rule. Defaults to \texttt{0.5em}:
+%
+% \begin{verbatim}
+%   \usepackage[width=2pt]{overcolored}
+% \end{verbatim}
+%
+% This value can be redefined by setting the |\overcolored@width| macro.
+%
+%
+% \DescribeMacro{height}
+%
+% Set the height of the overfull rule. Defaults to \texttt{3ex}:
+%
+% \begin{verbatim}
+%   \usepackage[height=0.5\baselineskip]{overcolored}
+% \end{verbatim}
+%
+% This value can be redefined by setting the |\overcolored@height| macro.
+%
+%
+% \StopEventually{}
+%
+% \section{Implementation}
+%
+% \iffalse
+%<*package>
+% \fi
+%
+%    \begin{macrocode}
+\ProvidesPackage{overcolored}
+\RequirePackage{xcolor}
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{
+   family=overcolored,
+   prefix=overcolored@,
+}
+\DeclareStringOption[magenta]{color}
+\DeclareStringOption[0.5em]{width}
+\DeclareStringOption[3ex]{height}
+\ProcessKeyvalOptions*
+%    \end{macrocode}
+%
+% \begin{macro}{\overcolored}
+%    \begin{macrocode}
+\def\overcolored{%
+  \hbox to\wd0{%
+    \setbox0=\hbox to\wd0{\unhbox0}%
+    \unhbox0 \ifnum\badness>10000 \smash{%
+      \rlap{\color{\overcolored@color}{%
+        \rule{\overcolored@width}{\overcolored@height}}}}%
+    \fi%
+  }%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\interlinepenalty=-50000 % force the break between each two lines
+\maxdeadcycles=50        % allow upto 50 \outputs with no \shipout
+\newtoks\orioutput \orioutput=\output % wrap the original \output routine
+\output
+    {\ifnum\outputpenalty>-20000 \the\orioutput
+     \else \ifnum\outputpenalty<-\maxdimen \the\orioutput
+     \else
+     \unvbox255        % flush the entire list back
+     \setbox0=\lastbox % strip the very last box
+     \nointerlineskip  % avoid doubled interline glue
+     \overcolored      % make the test and return the box back.
+     \advance\outputpenalty by50000
+     \penalty\outputpenalty % weak lie that nothing happened...
+     \fi\fi}
+%    \end{macrocode}
+%
+% \iffalse
+%</package>
+% \fi
+%
+% \Finale
+\endinput
