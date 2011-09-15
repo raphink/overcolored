@@ -29,12 +29,12 @@ $(FILE): README $(SOURCEFILES) $(DOCFILES) $(PKGFILES)
 	latex $*.ins
 
 %.pdf: %.tex
-	pdflatex -interaction=batchmode $<
-	pdflatex -interaction=batchmode $<
+	lualatex -interaction=batchmode $<
+	lualatex -interaction=batchmode $<
 
 $(CONTRIBUTION).pdf: $(CONTRIBUTION).sty
-	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
-	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
+	lualatex -interaction=batchmode $(CONTRIBUTION).dtx
+	lualatex -interaction=batchmode $(CONTRIBUTION).dtx
 
 upload: ctanify
 	$(CTANUPLOAD) -p
